@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace DogHouseApi.Controllers
 {
 
-    [Route("[controller]")]
+    [Route("/api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     [ApiController]
     public class DogsController : ControllerBase
     {
@@ -13,21 +14,21 @@ namespace DogHouseApi.Controllers
         private static int dogCount = 0;
         private static IDictionary<int, DogDto> dogs = new Dictionary<int, DogDto>();
 
-        // POST /dogs
+        // POST /api/v1/dogs
         [HttpPost]
-        public ActionResult Post([FromBody] DogDto dogDto)
+        public ActionResult Post([FromBody] DogDto dogDto, ApiVersion apiVersion)
         {
             dogs.Add(++dogCount, dogDto);
-            return CreatedAtRoute(new { id = dogCount }, dogDto);
+            return CreatedAtRoute(new { id = dogCount, version = apiVersion.ToString() }, dogDto);
         }
 
-        // GET /dogs/1
+        // GET /api/v1/dogs/1
         [HttpGet]
-        public ActionResult Get() => Ok(dogs.Values);
+        public ActionResult Get(ApiVersion apiVersion) => Ok(dogs.Values);
 
-        // GET /dogs
+        // GET /api/v1/dogs
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public ActionResult Get(int id, ApiVersion apiVersion)
         {
             if (dogs.ContainsKey(id))
             {
