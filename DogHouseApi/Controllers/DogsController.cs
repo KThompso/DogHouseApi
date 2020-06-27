@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using DogHouseApi.Entities;
 using DogHouseApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,28 +12,45 @@ namespace DogHouseApi.Controllers
     public class DogsController : ControllerBase
     {
 
-        private static int dogCount = 0;
-        private static IDictionary<int, DogDto> dogs = new Dictionary<int, DogDto>();
+        public IDogEntityManager entityManager;
+
+        public DogsController(IDogEntityManager entityManager)
+        {
+            this.entityManager = entityManager;
+        }
 
         // POST /api/v1/dogs
         [HttpPost]
         public ActionResult Post([FromBody] DogDto dogDto, ApiVersion apiVersion)
         {
-            dogs.Add(++dogCount, dogDto);
-            return CreatedAtRoute(new { id = dogCount, version = apiVersion.ToString() }, dogDto);
+            if (dogDto == null)
+            {
+                return BadRequest();
+            }
+
+            DogEntity dogEntity = entityManager.Add(DogEntity.FromDto(dogDto));
+            entityManager.Save();
+
+            return CreatedAtRoute(
+                nameof(GetDog),
+                new { id = dogEntity.Id, version = apiVersion.ToString() },
+                dogEntity.ToDto());
         }
 
         // GET /api/v1/dogs
         [HttpGet]
-        public ActionResult Get(ApiVersion apiVersion) => Ok(dogs.Values);
+        public ActionResult Get(ApiVersion apiVersion)
+            => Ok(entityManager.GetAllDogs().Select(x => x.ToDto()));
 
         // GET /api/v1/dogs/1
-        [HttpGet("{id}")]
-        public ActionResult Get(int id, ApiVersion apiVersion)
+        [HttpGet("{id}", Name = nameof(GetDog))]
+        public ActionResult GetDog(int id, ApiVersion apiVersion)
         {
-            if (dogs.ContainsKey(id))
+            DogEntity dogEntity = entityManager.GetDog(id);
+
+            if (dogEntity != null)
             {
-                return Ok(dogs[id]);
+                return Ok(dogEntity.ToDto());
             }
 
             return NotFound();
@@ -42,21 +60,40 @@ namespace DogHouseApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] DogDto dogDto, ApiVersion apiVersion)
         {
-            if (!dogs.ContainsKey(id))
+            if (dogDto == null)
+            {
+                return BadRequest();
+            }
+
+            var existingDog = entityManager.GetDog(id);
+
+            if (existingDog == null)
             {
                 return NotFound();
             }
 
-            dogs[id] = dogDto;
+            // TODO move to mapping class
+            existingDog.Breed = dogDto.Breed;
+            existingDog.Name = dogDto.Name;
+            existingDog.Picture = dogDto.Picture;
 
-            return CreatedAtRoute(new { id = dogCount, version = apiVersion.ToString() }, dogDto);
+            entityManager.Update(id, existingDog);
+            entityManager.Save();
+
+            return CreatedAtRoute(nameof(GetDog),
+                new
+                {
+                    id,
+                    version = apiVersion.ToString()
+                }, existingDog.ToDto());
         }
 
         // DELETE /api/v1/dogs
         [HttpDelete()]
         public ActionResult Delete(ApiVersion apiVersion)
         {
-            dogs.Clear();
+            entityManager.DeleteAllDogs();
+            entityManager.Save();
             return NoContent();
         }
 
@@ -64,12 +101,16 @@ namespace DogHouseApi.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id, ApiVersion apiVersion)
         {
-            if (!dogs.ContainsKey(id))
+            DogEntity dogEntity = entityManager.GetDog(id);
+
+            if (dogEntity == null)
             {
                 return NotFound();
             }
 
-            dogs.Remove(id);
+            entityManager.DeleteDog(id);
+            entityManager.Save();
+
             return NoContent();
         }
 
