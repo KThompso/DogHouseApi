@@ -8,7 +8,11 @@ namespace DogHouseApi
 
         public abstract DogEntity Add(DogEntity dog);
 
+        public abstract ImageEntity Add(ImageEntity image);
+
         public abstract DogEntity GetDog(int id);
+
+        public abstract ImageEntity GetImage(int id);
 
         public abstract DogEntity Update(int id, DogEntity dog);
 

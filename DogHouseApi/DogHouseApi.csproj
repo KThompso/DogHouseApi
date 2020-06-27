@@ -11,6 +11,8 @@
     <Folder Include="EntityManager\" />
     <Folder Include="Entities\" />
     <Folder Include="Database\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />

@@ -34,13 +34,15 @@ namespace DogHouseApi.Controllers
             return CreatedAtRoute(
                 nameof(GetDog),
                 new { id = dogEntity.Id, version = apiVersion.ToString() },
-                dogEntity.ToDto());
+                dogEntity.ToDto(Url, apiVersion));
         }
 
         // GET /api/v1/dogs
         [HttpGet]
-        public ActionResult Get(ApiVersion apiVersion)
-            => Ok(entityManager.GetAllDogs().Select(x => x.ToDto()));
+        public IQueryable<DogDto> Get(ApiVersion apiVersion)
+            => entityManager
+            .GetAllDogs()
+            .Select(x => x.ToDto(Url, apiVersion));
 
         // GET /api/v1/dogs/1
         [HttpGet("{id}", Name = nameof(GetDog))]
@@ -50,7 +52,7 @@ namespace DogHouseApi.Controllers
 
             if (dogEntity != null)
             {
-                return Ok(dogEntity.ToDto());
+                return Ok(dogEntity.ToDto(Url, apiVersion));
             }
 
             return NotFound();
@@ -75,7 +77,7 @@ namespace DogHouseApi.Controllers
             // TODO move to mapping class
             existingDog.Breed = dogDto.Breed;
             existingDog.Name = dogDto.Name;
-            existingDog.Picture = dogDto.Picture;
+            existingDog.Image = dogDto.Picture == null ? null : ImageEntity.FromBase64String(dogDto.Picture);
 
             entityManager.Update(id, existingDog);
             entityManager.Save();
@@ -85,7 +87,7 @@ namespace DogHouseApi.Controllers
                 {
                     id,
                     version = apiVersion.ToString()
-                }, existingDog.ToDto());
+                }, existingDog.ToDto(Url, apiVersion));
         }
 
         // DELETE /api/v1/dogs
