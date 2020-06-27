@@ -38,6 +38,20 @@ namespace DogHouseApi.Controllers
             return NotFound();
         }
 
+        // PUT /api/v1/dogs/1
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] DogDto dogDto, ApiVersion apiVersion)
+        {
+            if (!dogs.ContainsKey(id))
+            {
+                return NotFound();
+            }
+
+            dogs[id] = dogDto;
+
+            return CreatedAtRoute(new { id = dogCount, version = apiVersion.ToString() }, dogDto);
+        }
+
         // DELETE /api/v1/dogs
         [HttpDelete()]
         public ActionResult Delete(ApiVersion apiVersion)
