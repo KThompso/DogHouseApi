@@ -36,6 +36,7 @@ namespace DogHouseApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Dog House API", Version = "v1" });
             });
+            services.AddSwaggerGenNewtonsoftSupport();
 
         }
 
