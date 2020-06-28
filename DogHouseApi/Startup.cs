@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using DogHouseApi.Database;
 using Microsoft.AspNetCore.Builder;
@@ -68,8 +67,7 @@ namespace DogHouseApi
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("./swagger/v1/swagger.json", "Dog House Api V1");
-                c.RoutePrefix = string.Empty;
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Dog House Api V1");
             });
         }
     }
