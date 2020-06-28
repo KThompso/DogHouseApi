@@ -45,7 +45,7 @@ namespace DogHouseApi.Entities
 
             if (Image != null)
             {
-                dogDto.Picture = urlHelper.Link(nameof(ImagesController.GetImage),
+                dogDto.Picture = urlHelper?.Link(nameof(ImagesController.GetImage),
                     new
                     {
                         id = Image.Id,

@@ -39,10 +39,10 @@ namespace DogHouseApi.Controllers
 
         // GET /api/v1/dogs
         [HttpGet]
-        public IQueryable<DogDto> Get(ApiVersion apiVersion)
-            => entityManager
+        public ActionResult Get(ApiVersion apiVersion)
+            => Ok(entityManager
             .GetAllDogs()
-            .Select(x => x.ToDto(Url, apiVersion));
+            .Select(x => x.ToDto(Url, apiVersion)));
 
         // GET /api/v1/dogs/1
         [HttpGet("{id}", Name = nameof(GetDog))]
