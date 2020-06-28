@@ -13,7 +13,7 @@ namespace DogHouseApi.Entities
 
         public string Name { get; set; }
 
-        public string Breed { get; set; }
+        public DogBreed Breed { get; set; }
 
         public ImageEntity Image { get; set; }
 

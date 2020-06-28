@@ -1,13 +1,9 @@
-using System;
 using DogHouseApi;
 using DogHouseApi.Controllers;
 using DogHouseApi.Database;
 using DogHouseApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -41,7 +37,7 @@ namespace DogHouseApiTests.Controllers
         {
             var dogDto = new DogDto
             {
-                Breed = "German Shepard",
+                Breed = DogBreed.German_Shepherd,
                 Name = "Major",
                 Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
@@ -56,7 +52,7 @@ namespace DogHouseApiTests.Controllers
         {
             var dogDto = new DogDto
             {
-                Breed = "German Shepard",
+                Breed = DogBreed.German_Shepherd,
                 Name = "Major",
                 Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
@@ -80,7 +76,7 @@ namespace DogHouseApiTests.Controllers
         {
             var dogDto = new DogDto
             {
-                Breed = "German Shepard",
+                Breed = DogBreed.German_Shepherd,
                 Name = "Major",
                 Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
@@ -105,7 +101,7 @@ namespace DogHouseApiTests.Controllers
         {
             var dogDto = new DogDto
             {
-                Breed = "German Shepard",
+                Breed = DogBreed.German_Shepherd,
                 Name = "Major",
                 Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
@@ -120,7 +116,7 @@ namespace DogHouseApiTests.Controllers
         {
             var dogDto = new DogDto
             {
-                Breed = "German Shepard",
+                Breed = DogBreed.German_Shepherd,
                 Name = "Major",
                 Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
@@ -145,7 +141,7 @@ namespace DogHouseApiTests.Controllers
         {
             var dogDto = new DogDto
             {
-                Breed = "German Shepard",
+                Breed = DogBreed.German_Shepherd,
                 Name = "Major",
                 Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
