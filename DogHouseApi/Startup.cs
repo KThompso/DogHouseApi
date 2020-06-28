@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace DogHouseApi
 {
@@ -32,6 +33,11 @@ namespace DogHouseApi
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddScoped<IDogEntityManager, DogEntityManager>();
             services.AddDbContext<DogDbContext>(optionsAction => optionsAction.UseInMemoryDatabase("DogDatabase"));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Dog House API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +57,20 @@ namespace DogHouseApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpReq) =>
+                {
+                    swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+                });
+            });
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("./swagger/v1/swagger.json", "Dog House Api V1");
+                c.RoutePrefix = string.Empty;
             });
         }
     }
