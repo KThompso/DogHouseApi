@@ -1,0 +1,13 @@
+on: [push]
+
+jobs:
+  build:
+    name: Build DogHouseApi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+      - run: dotnet test
+      - run: dotnet build DogHouseApi
