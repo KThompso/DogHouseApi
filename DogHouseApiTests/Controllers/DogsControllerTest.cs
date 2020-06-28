@@ -48,6 +48,21 @@ namespace DogHouseApiTests.Controllers
         }
 
         [Fact]
+        public void PostDogWithInvalidImageShouldReturnBadRequest()
+        {
+            var dogDto = new DogDto
+            {
+                Breed = DogBreed.German_Shepherd,
+                Name = "Major",
+                Picture = "invalid-base64-image",
+            };
+
+            var result = Controller.Post(dogDto, apiVersion);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
         public void PutDogShouldReturnCreated()
         {
             var dogDto = new DogDto

@@ -28,7 +28,18 @@ namespace DogHouseApi.Controllers
                 return BadRequest();
             }
 
-            DogEntity dogEntity = entityManager.Add(DogEntity.FromDto(dogDto));
+            DogEntity dogEntity;
+
+            try
+            {
+                dogEntity = DogEntity.FromDto(dogDto);
+            }
+            catch (System.FormatException)
+            {
+                return BadRequest("Picture must be a valid base64 encoded image");
+            }
+
+            dogEntity = entityManager.Add(dogEntity);
             entityManager.Save();
 
             return CreatedAtRoute(
