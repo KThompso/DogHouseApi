@@ -14,11 +14,11 @@ namespace DogHouseApi.Controllers
     public class DogsController : ControllerBase
     {
 
-        public IDogEntityManager entityManager;
+        private readonly IDogEntityManager _entityManager;
 
         public DogsController(IDogEntityManager entityManager)
         {
-            this.entityManager = entityManager;
+            _entityManager = entityManager;
         }
 
         // POST /api/v1/dogs
@@ -43,8 +43,8 @@ namespace DogHouseApi.Controllers
                 return BadRequest(ErrorMessages.INVALID_IMAGE);
             }
 
-            dogEntity = entityManager.Add(dogEntity);
-            entityManager.Save();
+            dogEntity = _entityManager.Add(dogEntity);
+            _entityManager.Save();
 
             return CreatedAtRoute(
                 nameof(GetDog),
@@ -55,10 +55,10 @@ namespace DogHouseApi.Controllers
         // GET /api/v1/dogs
         [HttpGet]
         [ProducesResponseType(typeof(IQueryable<DogDto>), StatusCodes.Status200OK)]
-        public ActionResult Get(ApiVersion apiVersion)
-            => Ok(entityManager
-            .GetAllDogs()
-            .Select(x => x.ToDto(Url, apiVersion)));
+        public ActionResult Get(ApiVersion apiVersion) =>
+            Ok(_entityManager
+                .GetAllDogs()
+                .Select(x => x.ToDto(Url, apiVersion)));
 
         // GET /api/v1/dogs/1
         [HttpGet("{id}", Name = nameof(GetDog))]
@@ -66,7 +66,7 @@ namespace DogHouseApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult GetDog(int id, ApiVersion apiVersion)
         {
-            DogEntity dogEntity = entityManager.GetDog(id);
+            DogEntity dogEntity = _entityManager.GetDog(id);
 
             if (dogEntity != null)
             {
@@ -87,7 +87,7 @@ namespace DogHouseApi.Controllers
                 return BadRequest();
             }
 
-            var existingDog = entityManager.GetDog(id);
+            var existingDog = _entityManager.GetDog(id);
 
             if (existingDog == null)
             {
@@ -106,8 +106,8 @@ namespace DogHouseApi.Controllers
                 return BadRequest(ErrorMessages.INVALID_IMAGE);
             }
 
-            entityManager.Update(id, existingDog);
-            entityManager.Save();
+            _entityManager.Update(id, existingDog);
+            _entityManager.Save();
 
             return CreatedAtRoute(nameof(GetDog),
                 new
@@ -122,8 +122,8 @@ namespace DogHouseApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult Delete(ApiVersion apiVersion)
         {
-            entityManager.DeleteAllDogs();
-            entityManager.Save();
+            _entityManager.DeleteAllDogs();
+            _entityManager.Save();
             return NoContent();
         }
 
@@ -133,15 +133,15 @@ namespace DogHouseApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult Delete(int id, ApiVersion apiVersion)
         {
-            DogEntity dogEntity = entityManager.GetDog(id);
+            DogEntity dogEntity = _entityManager.GetDog(id);
 
             if (dogEntity == null)
             {
                 return NotFound();
             }
 
-            entityManager.DeleteDog(id);
-            entityManager.Save();
+            _entityManager.DeleteDog(id);
+            _entityManager.Save();
 
             return NoContent();
         }

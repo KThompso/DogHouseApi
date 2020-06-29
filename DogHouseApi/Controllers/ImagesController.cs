@@ -10,11 +10,11 @@ namespace DogHouseApi.Controllers
     public class ImagesController : ControllerBase
     {
 
-        public IDogEntityManager entityManager;
+        private readonly IDogEntityManager _entityManager;
 
         public ImagesController(IDogEntityManager entityManager)
         {
-            this.entityManager = entityManager;
+            _entityManager = entityManager;
         }
 
         // GET /api/v{version}/images/1.jpeg
@@ -22,7 +22,7 @@ namespace DogHouseApi.Controllers
         [Produces(MediaTypeNames.Image.Jpeg, MediaTypeNames.Image.Gif, MediaTypeNames.Image.Tiff, "image/png")]
         public ActionResult GetImage(int id)
         {
-            var image = entityManager.GetImage(id);
+            var image = _entityManager.GetImage(id);
 
             if (image == null)
             {
