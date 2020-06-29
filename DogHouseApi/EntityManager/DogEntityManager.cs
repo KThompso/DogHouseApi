@@ -19,9 +19,9 @@ namespace DogHouseApi
             _dbContext.SaveChanges();
         }
 
-        public DogEntity Add(DogEntity dog)
+        public DogEntity AddDog(DogEntity dog)
         {
-            dog.Image = Add(dog.Image);
+            dog.Image = AddImage(dog.Image);
             _dbContext.Dogs.Add(dog);
             return dog;
         }
@@ -33,10 +33,10 @@ namespace DogHouseApi
             .Include(dog => dog.Image)
             .FirstOrDefault();
 
-        public DogEntity Update(int id, DogEntity dog)
+        public DogEntity UpdateDog(int id, DogEntity dog)
         {
             dog.Id = id;
-            dog.Image = Add(dog.Image);
+            dog.Image = AddImage(dog.Image);
             _dbContext.Dogs.Update(dog);
             return dog;
         }
@@ -47,9 +47,12 @@ namespace DogHouseApi
             _dbContext.Dogs.Remove(dog);
         }
 
+        public int GetDogCount() => _dbContext.Dogs.Count();
+
         public IQueryable<DogEntity> GetAllDogs() =>
             _dbContext
             .Dogs
+            // TODO don't include the image data
             .Include(dog => dog.Image)
             .AsQueryable<DogEntity>();
 
@@ -59,7 +62,7 @@ namespace DogHouseApi
             _dbContext.RemoveRange(_dbContext.Images);
         }
 
-        public ImageEntity Add(ImageEntity image)
+        public ImageEntity AddImage(ImageEntity image)
         {
             if (image == null)
             {

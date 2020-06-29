@@ -13,7 +13,8 @@
     <Folder Include="Database\" />
     <Folder Include="Extensions\" />
     <Folder Include="Utilities\" />
-    <Folder Include="Serilog\" />
+    <Folder Include="Logging\" />
+    <Folder Include="Mappers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
@@ -26,4 +27,14 @@
     <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="null" scope="text/x-json" />
+          <JSONFormattingPolicy AutomaticFormatting="False" AutoStructureCompletion="True" BracePositions="SemiExpanded" FormatOnPaste="True" scope="text/x-json" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

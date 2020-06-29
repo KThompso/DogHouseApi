@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Configuration;
 
-namespace DogHouseApi.Serilog
+namespace DogHouseApi.Logging
 {
     public static class SerilogExtensions
     {

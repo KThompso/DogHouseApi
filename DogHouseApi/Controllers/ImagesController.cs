@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using DogHouseApi.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogHouseApi.Controllers
@@ -19,15 +20,24 @@ namespace DogHouseApi.Controllers
 
         // GET /api/v{version}/images/1.jpeg
         [HttpGet("{id:int}.{extension}", Name = nameof(GetImage))]
-        [Produces(MediaTypeNames.Image.Jpeg, MediaTypeNames.Image.Gif, MediaTypeNames.Image.Tiff, "image/png")]
+        [Produces(MediaTypeNames.Image.Jpeg,
+                  MediaTypeNames.Image.Gif,
+                  MediaTypeNames.Image.Tiff,
+                  "image/png")]
         public ActionResult GetImage(int id)
         {
-            var image = _entityManager.GetImage(id);
+            ImageEntity image = _entityManager.GetImage(id);
 
             if (image == null)
             {
                 return NotFound();
             }
+
+            string link = Url.Link(
+                nameof(GetImage),
+                new { id = image.Id, extension = image.Extension });
+
+            Response.Headers.Add("Link", $"<{link}>; rel=\"self\"");
 
             return File(image.Data, image.MimeType);
         }

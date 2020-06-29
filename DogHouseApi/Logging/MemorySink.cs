@@ -4,7 +4,7 @@ using System.Linq;
 using Serilog.Core;
 using Serilog.Events;
 
-namespace DogHouseApi.Serilog
+namespace DogHouseApi.Logging
 {
     public class MemorySink : ILogEventSink
     {
@@ -37,7 +37,9 @@ namespace DogHouseApi.Serilog
         public IOrderedEnumerable<LogEvent> GetLogs(DateTimeOffset start, DateTimeOffset end)
         {
             return _logs
-                .Where(log => log.Timestamp >= start && log.Timestamp <= end)
+                .Where(log =>
+                    (log.Timestamp >= start || start == DateTimeOffset.MinValue)
+                    && (log.Timestamp <= end || end == DateTimeOffset.MinValue))
                 .OrderBy(log => log.Timestamp);
         }
 

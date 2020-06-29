@@ -1,6 +1,7 @@
 using DogHouseApi;
 using DogHouseApi.Controllers;
 using DogHouseApi.Database;
+using DogHouseApi.Mappers;
 using DogHouseApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,21 +29,22 @@ namespace DogHouseApiTests.Controllers
 
             var httpContext = new DefaultHttpContext();
 
-            var dogEntityManager = new DogEntityManager(dbContext);
-            Controller = new DogsController(dogEntityManager);
+            IDogEntityManager dogEntityManager = new DogEntityManager(dbContext);
+            IDogMapper dogMapper = new DogMapper();
+            Controller = new DogsController(dogEntityManager, dogMapper);
         }
 
         [Fact]
         public void PostDogShouldReturnCreated()
         {
-            var dogDto = new DogDto
+            var dogDto = new DogDto
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
-            var result = Controller.Post(dogDto, apiVersion);
+            var result = Controller.PostDog(dogDto, apiVersion);
 
             Assert.IsType<CreatedAtRouteResult>(result);
         }
@@ -50,14 +52,14 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void PostDogWithInvalidImageShouldReturnBadRequest()
         {
-            var dogDto = new DogDto
+            var dogDto = new DogDto
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Picture = "invalid-base64-image",
+                Image = "invalid-base64-image",
             };
 
-            var result = Controller.Post(dogDto, apiVersion);
+            var result = Controller.PostDog(dogDto, apiVersion);
 
             Assert.IsType<BadRequestObjectResult>(result);
         }
@@ -65,15 +67,15 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void PutDogShouldReturnCreated()
         {
-            var dogDto = new DogDto
+            var dogDto = new DogDto
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
-            _ = Controller.Post(dogDto, apiVersion);
-            var result = Controller.Put(1, dogDto, apiVersion);
+            _ = Controller.PostDog(dogDto, apiVersion);
+            var result = Controller.PutDog(1, dogDto, apiVersion);
 
             Assert.IsType<CreatedAtRouteResult>(result);
         }
@@ -81,7 +83,7 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void GetAllDogsShouldReturnOk()
         {
-            var result = Controller.Get(apiVersion);
+            var result = Controller.GetDogs(apiVersion);
 
             Assert.IsType<OkObjectResult>(result);
         }
@@ -89,14 +91,14 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void GetExistingDogShouldReturnOk()
         {
-            var dogDto = new DogDto
+            var dogDto = new DogDto
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
-            _ = Controller.Post(dogDto, apiVersion);
+            _ = Controller.PostDog(dogDto, apiVersion);
 
             var result = Controller.GetDog(1, apiVersion);
 
@@ -114,14 +116,14 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void PutNonExistingDogShouldReturnNotFound()
         {
-            var dogDto = new DogDto
+            var dogDto = new DogDto
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
-            var result = Controller.Put(1, dogDto, apiVersion);
+            var result = Controller.PutDog(1, dogDto, apiVersion);
 
             Assert.IsType<NotFoundResult>(result);
         }
@@ -129,16 +131,16 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void DeleteExistingDogShouldReturnNoContent()
         {
-            var dogDto = new DogDto
+            var dogDto = new DogDto
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
-            _ = Controller.Post(dogDto, apiVersion);
+            _ = Controller.PostDog(dogDto, apiVersion);
 
-            var result = Controller.Delete(1, apiVersion);
+            var result = Controller.DeleteDog(1, apiVersion);
 
             Assert.IsType<NoContentResult>(result);
         }
@@ -146,7 +148,7 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void DeleteNonExistingDogShouldReturnNotFound()
         {
-            var result = Controller.Delete(1, apiVersion);
+            var result = Controller.DeleteDog(1, apiVersion);
 
             Assert.IsType<NotFoundResult>(result);
         }
@@ -154,19 +156,19 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void DeleteAllDogsShouldRemoveDog()
         {
-            var dogDto = new DogDto
+            var dogDto = new DogDto
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Picture = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
             for (int i = 0; i < 100; ++i)
             {
-                _ = Controller.Post(dogDto, apiVersion);
+                _ = Controller.PostDog(dogDto, apiVersion);
             }
 
-            var result = Controller.Delete(apiVersion);
+            var result = Controller.DeleteAllDogs(apiVersion);
 
             Assert.IsType<NoContentResult>(result);
 
