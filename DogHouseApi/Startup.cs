@@ -5,6 +5,7 @@ using DogHouseApi.Mappers;
 using DogHouseApi.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,11 @@ namespace DogHouseApi
                         options.JsonSerializerOptions.IgnoreNullValues = true;
                     });
 
-            services.AddApiVersioning();
+            services.AddApiVersioning(o =>
+            {
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddScoped<IDogEntityManager, DogEntityManager>();
             services.AddSingleton<IDogMapper, DogMapper>();
@@ -40,8 +45,13 @@ namespace DogHouseApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Dog House API", Version = "v1" });
-                c.SchemaFilter<ExcludeFilter>();
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "Dog House API",
+                    Version = "v1",
+                    Description = "A place to keep your dogs"
+                });
+                c.SchemaFilter<SchemaExcludeFilter>();
+                c.EnableAnnotations();
             });
             services.AddSwaggerGenNewtonsoftSupport();
 

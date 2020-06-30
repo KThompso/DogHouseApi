@@ -63,7 +63,7 @@ List all the dogs.
             ],
             "breed": "Poodle",
             "name": "Sparky",
-            "image": "https://localhost:5001/api/v1/images/1.gif"
+            "imageUrl": "https://localhost:5001/api/v1/images/1.gif"
         },
         {
             "links": [
@@ -85,6 +85,7 @@ List all the dogs.
             ],
             "breed": "German Shepherd",
             "name": "Major"
+            "imageUrl": "https://images.dog.ceo/breeds/leonberg/n02111129_638.jpg"
         }
     ]
 }

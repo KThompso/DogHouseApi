@@ -41,7 +41,7 @@ namespace DogHouseApiTests.Controllers
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                ImageData = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
             var result = Controller.PostDog(dogDto, apiVersion);
@@ -56,7 +56,7 @@ namespace DogHouseApiTests.Controllers
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Image = "invalid-base64-image",
+                ImageData = "invalid-base64-image",
             };
 
             var result = Controller.PostDog(dogDto, apiVersion);
@@ -71,7 +71,7 @@ namespace DogHouseApiTests.Controllers
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                ImageData = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
             _ = Controller.PostDog(dogDto, apiVersion);
@@ -95,7 +95,7 @@ namespace DogHouseApiTests.Controllers
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                ImageData = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
             _ = Controller.PostDog(dogDto, apiVersion);
@@ -120,7 +120,7 @@ namespace DogHouseApiTests.Controllers
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                ImageData = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
             var result = Controller.PutDog(1, dogDto, apiVersion);
@@ -135,7 +135,7 @@ namespace DogHouseApiTests.Controllers
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                ImageData = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
             _ = Controller.PostDog(dogDto, apiVersion);
@@ -160,7 +160,7 @@ namespace DogHouseApiTests.Controllers
             {
                 Breed = DogBreed.German_Shepherd,
                 Name = "Major",
-                Image = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+                ImageData = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
             for (int i = 0; i < 100; ++i)

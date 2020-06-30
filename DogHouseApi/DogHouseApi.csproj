@@ -15,6 +15,7 @@
     <Folder Include="Utilities\" />
     <Folder Include="Logging\" />
     <Folder Include="Mappers\" />
+    <Folder Include="Swagger\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
@@ -26,6 +27,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.1" />
     <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.5.1" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

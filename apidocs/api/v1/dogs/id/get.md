@@ -37,7 +37,7 @@ Display a single dog.
     ],
     "breed": "German Shepherd",
     "name": "Sparky",
-    "image": "https://localhost:5001/api/v1/images/1.gif"
+    "imageUrl": "https://localhost:5001/api/v1/images/1.gif"
 }
 ```
 

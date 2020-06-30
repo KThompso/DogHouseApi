@@ -6,13 +6,39 @@ Create a new dog.
 
 **Method** : `POST`
 
-**Data example**
+**Data constraints**
+
+Either `imageUrl` or `imageData` can be provided bot both.  `imageData` allows you to upload a base64 encoded string representing an image.  `imageUrl` takes a link to an image on the web.
+
+```json
+{
+    "imageUrl": "[link to image]"
+}
+```
+
+**OR**
+
+```json
+{
+    "imageData": "[base64 encoded image data]"
+}
+```
+
+**Data examples**
 
 ```json
 {
     "name": "Sparky",
     "breed": "German Shepherd",
-    "image": "base64 encoded image"
+    "imageData": "[base64 encoded image]",
+}
+```
+
+```json
+{
+    "name": "Fido",
+    "breed": "Cockapoo",
+    "imageUrl": "https://images.dog.ceo/breeds/leonberg/n02111129_638.jpg"
 }
 ```
 
@@ -45,6 +71,6 @@ Create a new dog.
     ],
     "breed": "German Shepherd",
     "name": "Sparky",
-    "image": "https://localhost:5001/api/v1/images/1.gif"
+    "imageUrl": "https://localhost:5001/api/v1/images/1.gif"
 }
 ```

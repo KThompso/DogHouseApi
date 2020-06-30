@@ -5,14 +5,6 @@
 
 Dog House is an ASP.NET Core web API for storing information and images of dogs.  You can run Dog House locally as an ASP.NET application or docker image.  Alternatively you can access this version running on Microsoft Azure <https://the-dog-house.azurewebsites.net/swagger/index.html>.
 
-## Docker
-
-Run the latest docker image from docker hub.
-
-```
-$ docker run -p 80:80 kthompso/dog-house-api
-```
-
 ## Documentation
 
 The Dog House API allows users to create, read, update, and delete information about their dogs.  Images of your dogs can be uploaded as base64 encoded strings.
@@ -38,13 +30,23 @@ Endpoints for retrieving web logs.
 
 - [List Logs](apidocs/api/v1/logs/get.md) : `GET /api/v1/logs`
 
+
+## Docker
+
+Run the latest docker image from docker hub.
+
+```
+$ docker run -p 80:80 kthompso/dog-house-api
+```
+
 ## Development
+
+To develop your own local Dog House API just clone this repository and run.
 
 ```
 $ git clone https://github.com/KThompso/DogHouseApi
 $ cd DogHouseApi/DogHouseApi && dotnet run
 ```
-
 
 [dog-house-base]: https://the-dog-house.azurewebsites.net/api/v1/dogs
 [swagger-ui]: https://the-dog-house.azurewebsites.net/swagger/index.html

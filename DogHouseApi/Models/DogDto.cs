@@ -19,7 +19,10 @@ namespace DogHouseApi.Models
         public string Name { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Image { get; set; }
+        public string ImageData { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string ImageUrl { get; set; }
 
     }
 }

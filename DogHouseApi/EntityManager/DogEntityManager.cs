@@ -21,7 +21,7 @@ namespace DogHouseApi
 
         public DogEntity AddDog(DogEntity dog)
         {
-            dog.Image = AddImage(dog.Image);
+            dog.ImageData = AddImage(dog.ImageData);
             _dbContext.Dogs.Add(dog);
             return dog;
         }
@@ -30,13 +30,13 @@ namespace DogHouseApi
             _dbContext
             .Dogs
             .Where(dog => dog.Id == id)
-            .Include(dog => dog.Image)
+            .Include(dog => dog.ImageData)
             .FirstOrDefault();
 
         public DogEntity UpdateDog(int id, DogEntity dog)
         {
             dog.Id = id;
-            dog.Image = AddImage(dog.Image);
+            dog.ImageData = AddImage(dog.ImageData);
             _dbContext.Dogs.Update(dog);
             return dog;
         }
@@ -53,7 +53,7 @@ namespace DogHouseApi
             _dbContext
             .Dogs
             // TODO don't include the image data
-            .Include(dog => dog.Image)
+            .Include(dog => dog.ImageData )
             .AsQueryable<DogEntity>();
 
         public void DeleteAllDogs()

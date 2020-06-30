@@ -6,6 +6,7 @@ using DogHouseApi.Mappers;
 using DogHouseApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogHouseApi.Controllers
 {
@@ -32,12 +33,24 @@ namespace DogHouseApi.Controllers
         [HttpPost(Name = nameof(PostDog))]
         [ProducesResponseType(typeof(DogDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation(
+            Summary = "Creates a new dog",
+            OperationId = "CreateDog",
+            Tags = new[] { "Dogs" }
+        )]
         public ActionResult PostDog(
             [FromBody] DogDto dogDto,
             ApiVersion apiVersion)
         {
             if (dogDto == null)
+            {
                 return BadRequest();
+            }
+
+            if (dogDto.ImageData != null && dogDto.ImageUrl != null)
+            {
+                return BadRequest(ErrorMessage.TOO_MANY_IMAGE_TYPES);
+            }
 
             DogEntity dogEntity;
 
@@ -115,6 +128,11 @@ namespace DogHouseApi.Controllers
             if (dogDto == null)
             {
                 return BadRequest();
+            }
+
+            if (dogDto.ImageData != null && dogDto.ImageUrl != null)
+            {
+                return BadRequest(ErrorMessage.TOO_MANY_IMAGE_TYPES);
             }
 
             DogEntity existingDog = _entityManager.GetDog(id);

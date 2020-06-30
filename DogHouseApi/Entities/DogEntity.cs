@@ -14,13 +14,16 @@ namespace DogHouseApi.Entities
 
         public DogBreed Breed { get; set; }
 
-        public ImageEntity Image { get; set; }
+        public ImageEntity ImageData { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public void UpdateFromDto(DogDto dogDto)
         {
             Breed = dogDto.Breed;
             Name = dogDto.Name;
-            Image = dogDto.Image?.ToImageEntity();
+            ImageData = dogDto.ImageData?.ToImageEntity();
+            ImageUrl = dogDto.ImageData == null ? dogDto.ImageUrl : null;
         }
     }
 }

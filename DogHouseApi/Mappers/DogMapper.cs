@@ -20,16 +20,19 @@ namespace DogHouseApi.Mappers
                 Breed = dogEntity.Breed,
             };
 
-            if (dogEntity.Image != null)
+            if (dogEntity.ImageData != null)
             {
-                dogDto.Image = urlHelper?.Link(
+                dogDto.ImageUrl = urlHelper?.Link(
                     nameof(ImagesController.GetImage),
                     new
                     {
-                        id = dogEntity.Image.Id,
-                        extension = dogEntity.Image.Extension,
+                        id = dogEntity.ImageData.Id,
+                        extension = dogEntity.ImageData.Extension,
                         version = apiVersion.ToString()
                     });
+            } else
+            {
+                dogDto.ImageUrl = dogEntity.ImageUrl;
             }
 
             return dogDto.WithLinks(urlHelper, apiVersion);
@@ -40,7 +43,8 @@ namespace DogHouseApi.Mappers
             {
                 Name = dogDto.Name,
                 Breed = dogDto.Breed,
-                Image = dogDto.Image?.ToImageEntity()
+                ImageData = dogDto.ImageData?.ToImageEntity(),
+                ImageUrl = dogDto.ImageUrl,
             };
     }
 }
