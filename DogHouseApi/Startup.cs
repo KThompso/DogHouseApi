@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using DogHouseApi.Database;
 using DogHouseApi.Mappers;
+using DogHouseApi.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,7 @@ namespace DogHouseApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Dog House API", Version = "v1" });
+                c.SchemaFilter<ExcludeFilter>();
             });
             services.AddSwaggerGenNewtonsoftSupport();
 
