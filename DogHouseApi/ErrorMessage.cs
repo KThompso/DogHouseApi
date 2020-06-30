@@ -1,7 +1,6 @@
-﻿using System;
-namespace DogHouseApi
+﻿namespace DogHouseApi
 {
-    public static class ErrorMessages
+    public static class ErrorMessage
     {
 
         public static readonly string INVALID_IMAGE = "Invalid base64 encoded image.";

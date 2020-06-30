@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DogHouseApi.Entities;
+using DogHouseApi.Extensions;
+using DogHouseApi.Mappers;
 using DogHouseApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,50 +18,74 @@ namespace DogHouseApi.Controllers
     {
 
         private readonly IDogEntityManager _entityManager;
+        private readonly IDogMapper _dogMapper;
 
-        public DogsController(IDogEntityManager entityManager)
+        public DogsController(
+            IDogEntityManager entityManager,
+            IDogMapper dogMapper)
         {
             _entityManager = entityManager;
+            _dogMapper = dogMapper;
         }
 
         // POST /api/v1/dogs
-        [HttpPost]
+        [HttpPost(Name = nameof(PostDog))]
         [ProducesResponseType(typeof(DogDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult Post([FromBody] DogDto dogDto, ApiVersion apiVersion)
+        public ActionResult PostDog(
+            [FromBody] DogDto dogDto,
+            ApiVersion apiVersion)
         {
             if (dogDto == null)
-            {
                 return BadRequest();
-            }
 
             DogEntity dogEntity;
 
             try
             {
-                dogEntity = DogEntity.FromDto(dogDto);
+                dogEntity = _dogMapper.ConvertToEntity(dogDto);
             }
             catch (System.FormatException)
             {
-                return BadRequest(ErrorMessages.INVALID_IMAGE);
+                return BadRequest(ErrorMessage.INVALID_IMAGE);
             }
 
-            dogEntity = _entityManager.Add(dogEntity);
+            dogEntity = _entityManager.AddDog(dogEntity);
             _entityManager.Save();
 
             return CreatedAtRoute(
                 nameof(GetDog),
                 new { id = dogEntity.Id, version = apiVersion.ToString() },
-                dogEntity.ToDto(Url, apiVersion));
+                _dogMapper.ConvertToDto(dogEntity, Url, apiVersion));
         }
 
         // GET /api/v1/dogs
-        [HttpGet]
-        [ProducesResponseType(typeof(IQueryable<DogDto>), StatusCodes.Status200OK)]
-        public ActionResult Get(ApiVersion apiVersion) =>
-            Ok(_entityManager
-                .GetAllDogs()
-                .Select(x => x.ToDto(Url, apiVersion)));
+        [HttpGet(Name = nameof(GetDogs))]
+        [ProducesResponseType(typeof(PagedDto<DogDto>), StatusCodes.Status200OK)]
+        public ActionResult GetDogs(
+            ApiVersion apiVersion,
+            [FromQuery] int page = 1,
+            [FromQuery] int perPage = 10)
+        {
+            perPage = Math.Max(perPage, 1);
+            page = Math.Max(page, 1);
+
+            var data =
+                _entityManager.GetAllDogs()
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
+                .Select(dog => _dogMapper.ConvertToDto(dog, Url, apiVersion));
+
+            var paginationData = new PageDataDto(
+                page,
+                data.Count(),
+                perPage,
+                _entityManager.GetDogCount());
+
+            PagedDto<DogDto> result = new PagedDto<DogDto>(paginationData, data);
+
+            return Ok(result.WithLinks<DogDto>(Url, apiVersion, nameof(GetDogs)));
+        }
 
         // GET /api/v1/dogs/1
         [HttpGet("{id}", Name = nameof(GetDog))]
@@ -68,59 +95,57 @@ namespace DogHouseApi.Controllers
         {
             DogEntity dogEntity = _entityManager.GetDog(id);
 
-            if (dogEntity != null)
+            if (dogEntity == null)
             {
-                return Ok(dogEntity.ToDto(Url, apiVersion));
+                return NotFound();
             }
 
-            return NotFound();
+            return Ok(_dogMapper.ConvertToDto(dogEntity, Url, apiVersion));
         }
 
         // PUT /api/v1/dogs/1
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = nameof(PutDog))]
         [ProducesResponseType(typeof(DogDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Put(int id, [FromBody] DogDto dogDto, ApiVersion apiVersion)
+        public IActionResult PutDog(
+            int id,
+            [FromBody] DogDto dogDto,
+            ApiVersion apiVersion)
         {
             if (dogDto == null)
             {
                 return BadRequest();
             }
 
-            var existingDog = _entityManager.GetDog(id);
+            DogEntity existingDog = _entityManager.GetDog(id);
 
             if (existingDog == null)
             {
                 return NotFound();
             }
 
-            // TODO move to mapping class
-            existingDog.Breed = dogDto.Breed;
-            existingDog.Name = dogDto.Name;
-
             try
             {
-                existingDog.Image = dogDto.Picture == null ? null : ImageEntity.FromBase64String(dogDto.Picture);
+                existingDog.UpdateFromDto(dogDto);
             }
-            catch (System.FormatException) {
-                return BadRequest(ErrorMessages.INVALID_IMAGE);
+            catch (System.FormatException)
+            {
+                return BadRequest(ErrorMessage.INVALID_IMAGE);
             }
 
-            _entityManager.Update(id, existingDog);
+            _entityManager.UpdateDog(id, existingDog);
             _entityManager.Save();
 
-            return CreatedAtRoute(nameof(GetDog),
-                new
-                {
-                    id,
-                    version = apiVersion.ToString()
-                }, existingDog.ToDto(Url, apiVersion));
+            return CreatedAtRoute(
+                nameof(GetDog),
+                new { id, version = apiVersion.ToString() },
+                _dogMapper.ConvertToDto(existingDog, Url, apiVersion));
         }
 
         // DELETE /api/v1/dogs
-        [HttpDelete()]
+        [HttpDelete(Name = nameof(DeleteAllDogs))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult Delete(ApiVersion apiVersion)
+        public ActionResult DeleteAllDogs(ApiVersion apiVersion)
         {
             _entityManager.DeleteAllDogs();
             _entityManager.Save();
@@ -128,10 +153,10 @@ namespace DogHouseApi.Controllers
         }
 
         // DELETE /api/v1/dogs/1
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = nameof(DeleteDog))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult Delete(int id, ApiVersion apiVersion)
+        public ActionResult DeleteDog(int id, ApiVersion apiVersion)
         {
             DogEntity dogEntity = _entityManager.GetDog(id);
 

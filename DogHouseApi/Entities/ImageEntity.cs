@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using DogHouseApi.Extensions;
-using DogHouseApi.Utilities;
 
 namespace DogHouseApi.Entities
 {
@@ -17,24 +15,6 @@ namespace DogHouseApi.Entities
         public string Extension { get; set; }
 
         public byte[] Data { get; set; }
-
-        // TODO move to mapper class
-        public static ImageEntity FromBase64String(string base64data)
-        {
-
-            var data = base64data.ConvertBase64ImageToBitMap();
-            var mimeType = base64data.GetMimeType();
-
-            ImageEntity image = new ImageEntity
-            {
-                MimeType = mimeType,
-                Data = data,
-                Fingerprint = data.GetFingerprint(),
-                Extension = MimeTypeUtil.GetImageExtension(mimeType),
-            };
-
-            return image;
-        }
 
     }
 }

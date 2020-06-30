@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using DogHouseApi.Database;
+using DogHouseApi.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,11 +26,15 @@ namespace DogHouseApi
             services.AddControllers()
                 .AddNewtonsoftJson()
                     .AddJsonOptions(options =>
-                        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+                    {
+                        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                        options.JsonSerializerOptions.IgnoreNullValues = true;
+                    });
 
             services.AddApiVersioning();
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddScoped<IDogEntityManager, DogEntityManager>();
+            services.AddSingleton<IDogMapper, DogMapper>();
             services.AddDbContext<DogDbContext>(optionsAction => optionsAction.UseInMemoryDatabase("DogDatabase"));
 
             services.AddSwaggerGen(c =>

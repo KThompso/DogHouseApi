@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mime;
-using DogHouseApi.Serilog;
+using DogHouseApi.Extensions;
+using DogHouseApi.Logging;
+using DogHouseApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,23 +16,31 @@ namespace DogHouseApi.Controllers
     [ApiController]
     public class LogsController : ControllerBase
     {
-
-        ILogger<LogsController> logger;
+        readonly ILogger<LogsController> logger;
 
         public LogsController(ILogger<LogsController> logger)
         {
             this.logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet(Name = nameof(GetLogs))]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<LogEvent>), StatusCodes.Status200OK)]
-        public ActionResult Get(
+        public ActionResult GetLogs(
             [FromQuery(Name = "start")] DateTimeOffset start,
-            [FromQuery(Name = "end")] DateTimeOffset end) =>
-            Ok(MemorySink
-                .GetInstance()
-                .GetLogs(start, end));
+            [FromQuery(Name = "end")] DateTimeOffset end,
+            ApiVersion apiVersion)
+        {
+
+            LogsDto logsDto = new LogsDto
+            {
+                start = start,
+                end = end,
+                Logs = MemorySink.GetInstance().GetLogs(start, end)
+            };
+
+            return Ok(logsDto.WithLinks(Url, apiVersion));
+        }
 
     }
 }
