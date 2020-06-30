@@ -67,7 +67,7 @@ namespace DogHouseApi
             {
                 c.PreSerializeFilters.Add((swagger, httpReq) =>
                 {
-                    swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+                    swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"https://{httpReq.Host.Value}" } };
                 });
             });
 
