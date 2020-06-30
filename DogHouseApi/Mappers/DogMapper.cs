@@ -40,7 +40,7 @@ namespace DogHouseApi.Mappers
             {
                 Name = dogDto.Name,
                 Breed = dogDto.Breed,
-                Image = dogDto?.Image.ToImageEntity()
+                Image = dogDto.Image?.ToImageEntity()
             };
     }
 }

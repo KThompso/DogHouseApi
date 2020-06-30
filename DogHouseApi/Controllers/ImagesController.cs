@@ -24,6 +24,7 @@ namespace DogHouseApi.Controllers
                   MediaTypeNames.Image.Gif,
                   MediaTypeNames.Image.Tiff,
                   "image/png")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult GetImage(int id)
         {
             ImageEntity image = _entityManager.GetImage(id);
