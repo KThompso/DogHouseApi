@@ -10,6 +10,12 @@ Display a single dog.
 
 **Method** : `GET`
 
+## Examples
+
+Display the dog with id 101.
+
+`$ curl https://doghouse.thompsonbass.io/api/v1/dogs/101`
+
 ## Success Response
 
 **Code** : `200 OK`
@@ -20,24 +26,24 @@ Display a single dog.
 {
     "links": [
         {
-            "href": "https://localhost:5001/api/v1/dogs/3",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs/101",
             "rel": "self",
             "method": "GET"
         },
         {
-            "href": "https://localhost:5001/api/v1/dogs/3",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs/101",
             "rel": "delete_dog",
             "method": "DELETE"
         },
         {
-            "href": "https://localhost:5001/api/v1/dogs/3",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs/101",
             "rel": "update_dog",
             "method": "PUT"
         }
     ],
     "breed": "German Shepherd",
     "name": "Sparky",
-    "imageUrl": "https://localhost:5001/api/v1/images/1.gif"
+    "imageUrl": "https://doghouse.thompsonbass.io/api/v1/images/1.gif"
 }
 ```
 
