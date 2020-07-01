@@ -11,6 +11,12 @@ List all the dogs.
 
 **Method** : `GET`
 
+## Examples
+
+`$ curl https://doghouse.thompsonbass.io/api/v1/dogs`
+
+`$ curl https://doghouse.thompsonbass.io/api/v1/dogs?page=3&perPage=25`
+
 ## Success Response
 
 **Code** : `200 OK`
@@ -21,17 +27,17 @@ List all the dogs.
 {
     "links": [
         {
-            "href": "https://localhost:5001/api/v1/dogs?page=1&perPage=10",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs?page=1&perPage=10",
             "rel": "self",
             "method": "GET"
         },
         {
-            "href": "https://localhost:5001/api/v1/dogs?page=1&perPage=10",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs?page=1&perPage=10",
             "rel": "first",
             "method": "GET"
         },
         {
-            "href": "https://localhost:5001/api/v1/dogs?page=1&perPage=10",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs?page=1&perPage=10",
             "rel": "last",
             "method": "GET"
         }
@@ -46,39 +52,39 @@ List all the dogs.
         {
             "links": [
                 {
-                    "href": "https://localhost:5001/api/v1/dogs/1",
+                    "href": "https://doghouse.thompsonbass.io/api/v1/dogs/1",
                     "rel": "self",
                     "method": "GET"
                 },
                 {
-                    "href": "https://localhost:5001/api/v1/dogs/1",
+                    "href": "https://doghouse.thompsonbass.io/api/v1/dogs/1",
                     "rel": "delete_dog",
                     "method": "DELETE"
                 },
                 {
-                    "href": "https://localhost:5001/api/v1/dogs/1",
+                    "href": "https://doghouse.thompsonbass.io/api/v1/dogs/1",
                     "rel": "update_dog",
                     "method": "PUT"
                 }
             ],
             "breed": "Poodle",
             "name": "Sparky",
-            "imageUrl": "https://localhost:5001/api/v1/images/1.gif"
+            "imageUrl": "https://doghouse.thompsonbass.io/api/v1/images/1.gif"
         },
         {
             "links": [
                 {
-                    "href": "https://localhost:5001/api/v1/dogs/2",
+                    "href": "https://doghouse.thompsonbass.io/api/v1/dogs/2",
                     "rel": "self",
                     "method": "GET"
                 },
                 {
-                    "href": "https://localhost:5001/api/v1/dogs/2",
+                    "href": "https://doghouse.thompsonbass.io/api/v1/dogs/2",
                     "rel": "delete_dog",
                     "method": "DELETE"
                 },
                 {
-                    "href": "https://localhost:5001/api/v1/dogs/2",
+                    "href": "https://doghouse.thompsonbass.io/api/v1/dogs/2",
                     "rel": "update_dog",
                     "method": "PUT"
                 }
@@ -93,4 +99,4 @@ List all the dogs.
 
 ## Notes
 
-* By default the first page of 10 dogs will be returned.
+* By default the first page of ten dogs will be returned.

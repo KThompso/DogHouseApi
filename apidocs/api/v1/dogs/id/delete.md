@@ -10,15 +10,21 @@ Delete a single dog.
 
 **Method** : `DELETE`
 
+## Examples
+
+Delete the dog with id 102.
+
+`$ curl -X DELETE https://doghouse.thompsonbass.io/api/v1/dogs/102`
+
 ## Success Response
 
-**Condition** : If the Dog exists.
+**Condition** : If the Dog with `{id}` exists and was deleted.
 
 **Code** : `204 NO CONTENT`
 
 ## Error Responses
 
-**Condition** : If no dog exists with this `{id}`.
+**Condition** : If no dog exists with `{id}`.
 
 **Code** : `404 NOT FOUND`
 

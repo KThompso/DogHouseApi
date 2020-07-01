@@ -6,6 +6,10 @@ Delete all the dogs.
 
 **Method** : `DELETE`
 
+## Examples
+
+`$ curl -X DELETE https://doghouse.thompsonbass.io/api/v1/dogs`
+
 ## Success Response
 
 **Code** : `204 NO CONTENT`

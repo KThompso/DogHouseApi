@@ -42,11 +42,33 @@ Either `imageUrl` or `imageData` can be provided bot both.  `imageData` allows y
 }
 ```
 
+## Examples
+
+Create a dog using an image link.
+
+```bash
+$ curl https://doghouse.thompsonbass.io/api/v1/dogs \
+      -H "Content-Type: application/json" \
+      -d "{'name': 'Sparky',
+           'breed': 'Poodle',
+           'imageUrl': 'https://images.dog.ceo/breeds/poodle-toy/n02113624_429.jpg' }"
+```
+
+Create a dog with base64 encoded image data.
+
+```bash
+$ curl https://doghouse.thompsonbass.io/api/v1/dogs \
+      -H "Content-Type: application/json" \
+      -d "{'name': 'Sparky',
+           'breed': 'Poodle',
+           'imageData': '$(curl https://images.dog.ceo/breeds/poodle-toy/n02113624_429.jpg | base64)' }"
+```
+
 ## Success Response
 
 **Code** : `201 CREATED`
 
-**Headers** : `Location: https://localhost:5001/api/v1/dogs/3`
+**Headers** : `Location: https://doghouse.thompsonbass.io/api/v1/dogs/3`
 
 **Content examples**
 
@@ -54,23 +76,29 @@ Either `imageUrl` or `imageData` can be provided bot both.  `imageData` allows y
 {
     "links": [
         {
-            "href": "https://localhost:5001/api/v1/dogs/3",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs/3",
             "rel": "self",
             "method": "GET"
         },
         {
-            "href": "https://localhost:5001/api/v1/dogs/3",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs/3",
             "rel": "delete_dog",
             "method": "DELETE"
         },
         {
-            "href": "https://localhost:5001/api/v1/dogs/3",
+            "href": "https://doghouse.thompsonbass.io/api/v1/dogs/3",
             "rel": "update_dog",
             "method": "PUT"
         }
     ],
     "breed": "German Shepherd",
     "name": "Sparky",
-    "imageUrl": "https://localhost:5001/api/v1/images/1.gif"
+    "imageUrl": "https://doghouse.thompsonbass.io/api/v1/images/1.gif"
 }
 ```
+
+## Error Responses
+
+**Condition** : If request is invalid.
+
+**Code** : `400 BAD REQUEST`
