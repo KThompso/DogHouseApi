@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using DogHouseApi.Extensions;
 using DogHouseApi.Logging;
@@ -7,7 +7,6 @@ using DogHouseApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Serilog.Events;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogHouseApi.Controllers
@@ -26,7 +25,7 @@ namespace DogHouseApi.Controllers
 
         [HttpGet(Name = nameof(GetLogs))]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<LogEvent>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(LogListDto), StatusCodes.Status200OK)]
         [SwaggerOperation(
             Summary = "Gets some logs",
             OperationId = "GetLogs",
@@ -38,11 +37,21 @@ namespace DogHouseApi.Controllers
             ApiVersion apiVersion)
         {
 
-            LogsDto logsDto = new LogsDto
+            LogListDto logsDto = new LogListDto
             {
                 start = start,
                 end = end,
-                Logs = MemorySink.GetInstance().GetLogs(start, end)
+                Logs = MemorySink
+                           .GetInstance()
+                           .GetLogs(start, end)
+                           .Select(logEvent =>
+                               new LogDto
+                               {
+                                   Timestamp = logEvent.Timestamp,
+                                   Message = logEvent.RenderMessage(),
+                                   Level = logEvent.Level.ToString()
+                               })
+                           .OrderBy(logDto => logDto.Timestamp),
             };
 
             return Ok(logsDto.WithLinks(Url, apiVersion));
