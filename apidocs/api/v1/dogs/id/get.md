@@ -14,7 +14,7 @@ Display a single dog.
 
 Display the dog with id 101.
 
-`$ curl https://doghouse.thompsonbass.io/api/v1/dogs/101`
+`$ curl "https://doghouse.thompsonbass.io/api/v1/dogs/101"`
 
 ## Success Response
 

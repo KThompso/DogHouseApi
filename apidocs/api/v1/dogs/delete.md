@@ -8,7 +8,7 @@ Delete all the dogs.
 
 ## Examples
 
-`$ curl -X DELETE https://doghouse.thompsonbass.io/api/v1/dogs`
+`$ curl -X "DELETE https://doghouse.thompsonbass.io/api/v1/dogs"`
 
 ## Success Response
 

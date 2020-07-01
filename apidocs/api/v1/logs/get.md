@@ -11,6 +11,16 @@ List log events between two date times.
 
 **Method** : `GET`
 
+## Examples
+
+Get all logs.
+
+`$ curl "https://doghouse.thompsonbass.io/api/v1/logs"`
+
+Get logs between 6AM on June 30 and 3 PM on July 1, 2020.
+
+`$ curl "https://doghouse.thompsonbass.io/api/v1/logs?start=2020-06-30T06:00:00&end=2020-07-01T15:00:00"`
+
 ## Success Response
 
 **Code** : `200 OK`
@@ -21,7 +31,7 @@ List log events between two date times.
 {
     "links": [
         {
-            "href": "https://localhost:5001/api/v1/logs?start=01%2F01%2F0001%2000%3A00%3A00%20%2B00%3A00&end=01%2F01%2F0001%2000%3A00%3A00%20%2B00%3A00",
+            "href": "https://doghouse.thompsonbass.io/api/v1/logs?start=01%2F01%2F0001%2000%3A00%3A00%20%2B00%3A00&end=01%2F01%2F0001%2000%3A00%3A00%20%2B00%3A00",
             "rel": "self",
             "method": "GET"
         }
@@ -240,4 +250,4 @@ List log events between two date times.
 
 ## Notes
 
-* By default all logs will be returned.
+* By default all logs will be returned if `start` and `end` aren't specified.
