@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using DogHouseApi.Database;
+using DogHouseApi.Filters;
 using DogHouseApi.Mappers;
 using DogHouseApi.Swagger;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,9 @@ namespace DogHouseApi
                         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                         options.JsonSerializerOptions.IgnoreNullValues = true;
                     });
+
+            services.AddControllers(options =>
+                options.Filters.Add(new HttpResponseExceptionFilter()));
 
             services.AddVersionedApiExplorer(config =>
             {
@@ -69,6 +73,8 @@ namespace DogHouseApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseExceptionHandler("/error");
 
             app.UseHttpsRedirection();
 

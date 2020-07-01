@@ -32,9 +32,7 @@ Delete the dog with id 102.
 
 ```json
 {
-    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-    "title": "Not Found",
-    "status": 404,
-    "traceId": "|c143817c-4db47a4d23727400."
+  "statusCode": 404,
+  "message": "Not found."
 }
 ```

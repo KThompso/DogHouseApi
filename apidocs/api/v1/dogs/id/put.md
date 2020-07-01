@@ -112,9 +112,20 @@ $ curl -X PUT "https://doghouse.thompsonbass.io/api/v1/dogs/101" \
 
 ```json
 {
-    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-    "title": "Not Found",
-    "status": 404,
-    "traceId": "|c1438178-4db47a4d23727400."
+  "statusCode": 404,
+  "message": "Not found."
+}
+```
+
+**Condition** : If request is invalid.
+
+**Code** : `400 BAD REQUEST`
+
+**Content**:
+
+```json
+{
+  "statusCode": 400,
+  "message": "Specify imageUrl or imageData, but not both."
 }
 ```

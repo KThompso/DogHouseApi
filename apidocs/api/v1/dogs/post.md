@@ -102,3 +102,12 @@ $ curl "https://doghouse.thompsonbass.io/api/v1/dogs" \
 **Condition** : If request is invalid.
 
 **Code** : `400 BAD REQUEST`
+
+**Content**:
+
+```json
+{
+  "statusCode": 400,
+  "message": "Specify imageUrl or imageData, but not both."
+}
+```
