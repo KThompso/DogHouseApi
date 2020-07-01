@@ -34,7 +34,9 @@ namespace DogHouseApi.Logging
             _logs.Add(log);
         }
 
-        public IOrderedEnumerable<LogEvent> GetLogs(DateTimeOffset start, DateTimeOffset end)
+        public IOrderedEnumerable<LogEvent> GetLogs(
+            DateTimeOffset start,
+            DateTimeOffset end)
         {
             return _logs
                 .Where(log =>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DogHouseApi.Entities;
+using DogHouseApi.Exceptions;
 using DogHouseApi.Extensions;
 using DogHouseApi.Mappers;
 using DogHouseApi.Models;
@@ -32,7 +33,7 @@ namespace DogHouseApi.Controllers
         // POST /api/v1/dogs
         [HttpPost(Name = nameof(PostDog))]
         [ProducesResponseType(typeof(DogDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status400BadRequest)]
         [SwaggerOperation(
             Summary = "Creates a new dog",
             OperationId = "CreateDog",
@@ -44,12 +45,12 @@ namespace DogHouseApi.Controllers
         {
             if (dogDto == null)
             {
-                return BadRequest();
+                throw new BadRequestException(ErrorMessage.INVALID_REQUEST);
             }
 
             if (dogDto.ImageData != null && dogDto.ImageUrl != null)
             {
-                return BadRequest(ErrorMessage.TOO_MANY_IMAGE_TYPES);
+                throw new BadRequestException(ErrorMessage.TOO_MANY_IMAGES);
             }
 
             DogEntity dogEntity;
@@ -60,7 +61,7 @@ namespace DogHouseApi.Controllers
             }
             catch (System.FormatException)
             {
-                return BadRequest(ErrorMessage.INVALID_IMAGE);
+                throw new BadRequestException(ErrorMessage.INVALID_IMAGE);
             }
 
             dogEntity = _entityManager.AddDog(dogEntity);
@@ -108,7 +109,7 @@ namespace DogHouseApi.Controllers
         // GET /api/v1/dogs/1
         [HttpGet("{id}", Name = nameof(GetDog))]
         [ProducesResponseType(typeof(DogDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
             Summary = "Gets a single dog",
             OperationId = "GetDog",
@@ -120,7 +121,7 @@ namespace DogHouseApi.Controllers
 
             if (dogEntity == null)
             {
-                return NotFound();
+                throw new NotFoundException();
             }
 
             return Ok(_dogMapper.ConvertToDto(dogEntity, Url, apiVersion));
@@ -129,7 +130,8 @@ namespace DogHouseApi.Controllers
         // PUT /api/v1/dogs/1
         [HttpPut("{id}", Name = nameof(PutDog))]
         [ProducesResponseType(typeof(DogDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
             Summary = "Updates a dog",
             OperationId = "PutDog",
@@ -142,19 +144,19 @@ namespace DogHouseApi.Controllers
         {
             if (dogDto == null)
             {
-                return BadRequest();
+                throw new BadRequestException(ErrorMessage.INVALID_REQUEST);
             }
 
             if (dogDto.ImageData != null && dogDto.ImageUrl != null)
             {
-                return BadRequest(ErrorMessage.TOO_MANY_IMAGE_TYPES);
+                throw new BadRequestException(ErrorMessage.TOO_MANY_IMAGES);
             }
 
             DogEntity existingDog = _entityManager.GetDog(id);
 
             if (existingDog == null)
             {
-                return NotFound();
+                throw new NotFoundException();
             }
 
             try
@@ -163,7 +165,7 @@ namespace DogHouseApi.Controllers
             }
             catch (System.FormatException)
             {
-                return BadRequest(ErrorMessage.INVALID_IMAGE);
+                throw new BadRequestException(ErrorMessage.INVALID_IMAGE);
             }
 
             _entityManager.UpdateDog(id, existingDog);
@@ -193,7 +195,7 @@ namespace DogHouseApi.Controllers
         // DELETE /api/v1/dogs/1
         [HttpDelete("{id}", Name = nameof(DeleteDog))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
             Summary = "Deletes a single dog",
             OperationId = "DeleteDog",
@@ -205,7 +207,7 @@ namespace DogHouseApi.Controllers
 
             if (dogEntity == null)
             {
-                return NotFound();
+                throw new NotFoundException();
             }
 
             _entityManager.DeleteDog(id);

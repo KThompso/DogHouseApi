@@ -16,6 +16,8 @@
     <Folder Include="Logging\" />
     <Folder Include="Mappers\" />
     <Folder Include="Swagger\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />

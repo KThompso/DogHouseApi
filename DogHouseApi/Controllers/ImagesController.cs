@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using DogHouseApi.Entities;
+using DogHouseApi.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogHouseApi.Controllers
@@ -31,7 +32,7 @@ namespace DogHouseApi.Controllers
 
             if (image == null)
             {
-                return NotFound();
+                throw new NotFoundException();
             }
 
             string link = Url.Link(
