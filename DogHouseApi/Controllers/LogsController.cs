@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog.Events;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogHouseApi.Controllers
 {
@@ -26,6 +27,11 @@ namespace DogHouseApi.Controllers
         [HttpGet(Name = nameof(GetLogs))]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<LogEvent>), StatusCodes.Status200OK)]
+        [SwaggerOperation(
+            Summary = "Gets some logs",
+            OperationId = "GetLogs",
+            Tags = new[] { "Logs" }
+        )]
         public ActionResult GetLogs(
             [FromQuery(Name = "start")] DateTimeOffset start,
             [FromQuery(Name = "end")] DateTimeOffset end,

@@ -51,7 +51,7 @@ Either `imageUrl` or `imageData` can be provided bot both.  `imageData` allows y
 Update the dog with id 101 using a link.
 
 ```bash
-$ curl -X PUT https://doghouse.thompsonbass.io/api/v1/dogs/101 \
+$ curl -X PUT "https://doghouse.thompsonbass.io/api/v1/dogs/101" \
       -H "Content-Type: application/json" \
       -d "{'name': 'Sparky',
            'breed': 'Poodle',
@@ -61,7 +61,7 @@ $ curl -X PUT https://doghouse.thompsonbass.io/api/v1/dogs/101 \
 Update the dog with id 101 using base64 encoded image data.
 
 ```bash
-$ curl -X PUT https://doghouse.thompsonbass.io/api/v1/dogs/101 \
+$ curl -X PUT "https://doghouse.thompsonbass.io/api/v1/dogs/101" \
       -H "Content-Type: application/json" \
       -d "{'name': 'Sparky',
            'breed': 'Poodle',

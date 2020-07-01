@@ -47,7 +47,7 @@ Either `imageUrl` or `imageData` can be provided bot both.  `imageData` allows y
 Create a dog using an image link.
 
 ```bash
-$ curl https://doghouse.thompsonbass.io/api/v1/dogs \
+$ curl "https://doghouse.thompsonbass.io/api/v1/dogs" \
       -H "Content-Type: application/json" \
       -d "{'name': 'Sparky',
            'breed': 'Poodle',
@@ -57,7 +57,7 @@ $ curl https://doghouse.thompsonbass.io/api/v1/dogs \
 Create a dog with base64 encoded image data.
 
 ```bash
-$ curl https://doghouse.thompsonbass.io/api/v1/dogs \
+$ curl "https://doghouse.thompsonbass.io/api/v1/dogs" \
       -H "Content-Type: application/json" \
       -d "{'name': 'Sparky',
            'breed': 'Poodle',

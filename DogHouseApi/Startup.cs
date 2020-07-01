@@ -33,10 +33,16 @@ namespace DogHouseApi
                         options.JsonSerializerOptions.IgnoreNullValues = true;
                     });
 
-            services.AddApiVersioning(o =>
+            services.AddVersionedApiExplorer(config =>
             {
-                o.AssumeDefaultVersionWhenUnspecified = true;
-                o.DefaultApiVersion = new ApiVersion(1, 0);
+                config.GroupNameFormat = "'v'VVV";
+                config.SubstituteApiVersionInUrl = true;
+            });
+            services.AddApiVersioning(config =>
+            {
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.ReportApiVersions = true;
             });
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddScoped<IDogEntityManager, DogEntityManager>();

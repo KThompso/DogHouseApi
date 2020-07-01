@@ -13,9 +13,9 @@ List all the dogs.
 
 ## Examples
 
-`$ curl https://doghouse.thompsonbass.io/api/v1/dogs`
+`$ curl "https://doghouse.thompsonbass.io/api/v1/dogs"`
 
-`$ curl https://doghouse.thompsonbass.io/api/v1/dogs?page=3&perPage=25`
+`$ curl "https://doghouse.thompsonbass.io/api/v1/dogs?page=3&perPage=25"`
 
 ## Success Response
 

@@ -14,7 +14,7 @@ Delete a single dog.
 
 Delete the dog with id 102.
 
-`$ curl -X DELETE https://doghouse.thompsonbass.io/api/v1/dogs/102`
+`$ curl -X DELETE "https://doghouse.thompsonbass.io/api/v1/dogs/102"`
 
 ## Success Response
 

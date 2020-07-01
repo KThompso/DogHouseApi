@@ -75,6 +75,11 @@ namespace DogHouseApi.Controllers
         // GET /api/v1/dogs
         [HttpGet(Name = nameof(GetDogs))]
         [ProducesResponseType(typeof(PagedDto<DogDto>), StatusCodes.Status200OK)]
+        [SwaggerOperation(
+            Summary = "Gets a list of dogs",
+            OperationId = "GetDogs",
+            Tags = new[] { "Dogs" }
+        )]
         public ActionResult GetDogs(
             ApiVersion apiVersion,
             [FromQuery] int page = 1,
@@ -104,6 +109,11 @@ namespace DogHouseApi.Controllers
         [HttpGet("{id}", Name = nameof(GetDog))]
         [ProducesResponseType(typeof(DogDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation(
+            Summary = "Gets a single dog",
+            OperationId = "GetDog",
+            Tags = new[] { "Dogs" }
+        )]
         public ActionResult GetDog(int id, ApiVersion apiVersion)
         {
             DogEntity dogEntity = _entityManager.GetDog(id);
@@ -120,6 +130,11 @@ namespace DogHouseApi.Controllers
         [HttpPut("{id}", Name = nameof(PutDog))]
         [ProducesResponseType(typeof(DogDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation(
+            Summary = "Updates a dog",
+            OperationId = "PutDog",
+            Tags = new[] { "Dogs" }
+        )]
         public IActionResult PutDog(
             int id,
             [FromBody] DogDto dogDto,
@@ -163,6 +178,11 @@ namespace DogHouseApi.Controllers
         // DELETE /api/v1/dogs
         [HttpDelete(Name = nameof(DeleteAllDogs))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [SwaggerOperation(
+            Summary = "Deletes all dogs",
+            OperationId = "DeleteAllDogs",
+            Tags = new[] { "Dogs" }
+        )]
         public ActionResult DeleteAllDogs(ApiVersion apiVersion)
         {
             _entityManager.DeleteAllDogs();
@@ -174,6 +194,11 @@ namespace DogHouseApi.Controllers
         [HttpDelete("{id}", Name = nameof(DeleteDog))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation(
+            Summary = "Deletes a single dog",
+            OperationId = "DeleteDog",
+            Tags = new[] { "Dogs" }
+        )]
         public ActionResult DeleteDog(int id, ApiVersion apiVersion)
         {
             DogEntity dogEntity = _entityManager.GetDog(id);
