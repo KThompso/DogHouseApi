@@ -78,7 +78,6 @@ $ curl -X PUT "https://doghouse.thompsonbass.io/api/v1/dogs/101" \
 
 ```json
 {
-{
     "links": [
         {
             "href": "https://doghouse.thompsonbass.io/api/v1/dogs/3",

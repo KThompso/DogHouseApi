@@ -90,7 +90,7 @@ List all the dogs.
                 }
             ],
             "breed": "German Shepherd",
-            "name": "Major"
+            "name": "Major",
             "imageUrl": "https://images.dog.ceo/breeds/leonberg/n02111129_638.jpg"
         }
     ]

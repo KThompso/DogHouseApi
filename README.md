@@ -7,7 +7,7 @@ Dog House is an ASP.NET Core web API for storing information and images of dogs.
 
 ## Documentation
 
-The Dog House API allows users to create, read, update, and delete information about their dogs.  Images of your dogs can be uploaded as base64 encoded strings.
+The Dog House API allows users to manage information about their dogs.  Images of your dogs can be uploaded as links or as images encoded as base64 strings.
 
 Swagger UI can be accessed [here][swagger-ui], and raw swagger documentation is available at <https://doghouse.thompsonbass.io/swagger/v1/swagger.json>.
 
