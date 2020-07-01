@@ -73,10 +73,12 @@ namespace DogHouseApi.Extensions
                 links.Add(new LinkDto(
                     urlHelper?.Link(
                         routeName,
-                        new {
+                        new
+                        {
                             page = dto.Page.Number - 1,
                             perPage = dto.Page.PerPage,
-                            version = apiVersion.ToString() }),
+                            version = apiVersion.ToString()
+                        }),
                     "prev",
                     System.Net.Http.HttpMethod.Get.Method));
             }
@@ -86,10 +88,12 @@ namespace DogHouseApi.Extensions
                 links.Add(new LinkDto(
                     urlHelper?.Link(
                         routeName,
-                        new {
+                        new
+                        {
                             page = dto.Page.Number + 1,
                             perPage = dto.Page.PerPage,
-                            version = apiVersion.ToString() }),
+                            version = apiVersion.ToString()
+                        }),
                     "next",
                     System.Net.Http.HttpMethod.Get.Method));
             }
@@ -97,10 +101,12 @@ namespace DogHouseApi.Extensions
             links.Add(new LinkDto(
                 urlHelper?.Link(
                     routeName,
-                    new {
+                    new
+                    {
                         page = dto.Page.TotalPages,
                         perPage = dto.Page.PerPage,
-                        version = apiVersion.ToString() }),
+                        version = apiVersion.ToString()
+                    }),
                 "last",
                 System.Net.Http.HttpMethod.Get.Method));
 
@@ -112,8 +118,8 @@ namespace DogHouseApi.Extensions
 
     public static class LogsLinkExtensions
     {
-        public static LogsDto WithLinks(
-            this LogsDto dto,
+        public static LogListDto WithLinks(
+            this LogListDto dto,
             IUrlHelper urlHelper,
             ApiVersion apiVersion)
         {
