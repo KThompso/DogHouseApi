@@ -33,7 +33,7 @@ Endpoints for retrieving web logs.
 
 ## Docker
 
-Run the latest docker image from docker hub.
+Run the latest docker image from [docker hub][docker-hub].
 
 ```
 $ docker run -p 80:80 kthompso/dog-house-api
@@ -48,6 +48,7 @@ $ git clone https://github.com/KThompso/DogHouseApi
 $ cd DogHouseApi/DogHouseApi && dotnet run
 ```
 
+[docker-hub]: https://hub.docker.com/repository/docker/kthompso/dog-house-api
 [dog-house-base]: https://doghouse.thompsonbass.io/api/v1/dogs
 [swagger-ui]: https://doghouse.thompsonbass.io/swagger/index.html
 [swagger-raw]: https://doghouse.thompsonbass.io/swagger/v1/swagger.json
