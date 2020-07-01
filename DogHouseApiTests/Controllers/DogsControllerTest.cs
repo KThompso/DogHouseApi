@@ -1,6 +1,7 @@
 using DogHouseApi;
 using DogHouseApi.Controllers;
 using DogHouseApi.Database;
+using DogHouseApi.Exceptions;
 using DogHouseApi.Mappers;
 using DogHouseApi.Models;
 using Microsoft.AspNetCore.Http;
@@ -59,9 +60,8 @@ namespace DogHouseApiTests.Controllers
                 ImageData = "invalid-base64-image",
             };
 
-            var result = Controller.PostDog(dogDto, apiVersion);
-
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Throws<BadRequestException>(() =>
+                Controller.PostDog(dogDto, apiVersion));
         }
 
         [Fact]
@@ -108,9 +108,8 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void GetNonExistingDogShouldReturnNotFound()
         {
-            var result = Controller.GetDog(1, apiVersion);
-
-            Assert.IsType<NotFoundResult>(result);
+            Assert.Throws<NotFoundException>(() =>
+                Controller.GetDog(1, apiVersion));
         }
 
         [Fact]
@@ -123,9 +122,8 @@ namespace DogHouseApiTests.Controllers
                 ImageData = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             };
 
-            var result = Controller.PutDog(1, dogDto, apiVersion);
-
-            Assert.IsType<NotFoundResult>(result);
+            Assert.Throws<NotFoundException>(() =>
+                Controller.PutDog(1, dogDto, apiVersion));
         }
 
         [Fact]
@@ -148,9 +146,8 @@ namespace DogHouseApiTests.Controllers
         [Fact]
         public void DeleteNonExistingDogShouldReturnNotFound()
         {
-            var result = Controller.DeleteDog(1, apiVersion);
-
-            Assert.IsType<NotFoundResult>(result);
+            Assert.Throws<NotFoundException>(() =>
+                Controller.DeleteDog(1, apiVersion));
         }
 
         [Fact]
@@ -172,9 +169,8 @@ namespace DogHouseApiTests.Controllers
 
             Assert.IsType<NoContentResult>(result);
 
-            result = Controller.GetDog(1, apiVersion);
-
-            Assert.IsType<NotFoundResult>(result);
+            Assert.Throws<NotFoundException>(() =>
+                Controller.GetDog(1, apiVersion));
         }
 
     }
