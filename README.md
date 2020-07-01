@@ -3,13 +3,15 @@
 ![Deploy](https://github.com/KThompso/DogHouseApi/workflows/Deploy/badge.svg?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Dog House is an ASP.NET Core web API for storing information and images of dogs.  You can access the Dog House swagger documentation at <https://doghouse.thompsonbass.io/swagger/index.html>.  Alternatively, you can run your own Dog House locally using the [docker image](#Docker).
+Easily manage information and pictures of dogs.
 
-## Documentation
+## Overview
 
-The Dog House API allows users to manage information about their dogs.  Images of your dogs can be uploaded as links or as images encoded as base64 strings.
+Dog House is an API that allows users to upload, retrieve, update, and delete information about their dogs.  Pictures of your dogs can be uploaded as links or as images encoded as base64 strings.  If uploading the image as base64 data, the image will be saved to the Dog House servers and a link to the image will be returned.
 
-Swagger UI can be accessed [here][swagger-ui], and raw swagger documentation is available at <https://doghouse.thompsonbass.io/swagger/v1/swagger.json>.
+**Swagger** : The swagger UI can be accessed [here][swagger-ui], and the raw swagger spec is available at <https://doghouse.thompsonbass.io/swagger/v1/swagger.json>.
+
+**Postman** : A postman collection is available for download at <https://github.com/KThompso/DogHouseApi/blob/master/postman/DogHouseAPI.postman_collection.json?raw=true>.
 
 ## Endpoints
 
@@ -30,6 +32,9 @@ Endpoints for retrieving web logs.
 
 - [List Logs](apidocs/api/v1/logs/get.md) : `GET /api/v1/logs`
 
+### Documentation
+
+- Swagger : `GET /swagger`
 
 ## Docker
 
@@ -41,7 +46,7 @@ $ docker run -p 80:80 kthompso/dog-house-api
 
 ## Development
 
-To develop your own local Dog House API just clone this repository and run.
+To start developing on Dog House just clone this repository and run.
 
 ```
 $ git clone https://github.com/KThompso/DogHouseApi
@@ -50,5 +55,6 @@ $ cd DogHouseApi/DogHouseApi && dotnet run
 
 [docker-hub]: https://hub.docker.com/repository/docker/kthompso/dog-house-api
 [dog-house-base]: https://doghouse.thompsonbass.io/api/v1/dogs
+[postman-docs]: https://github.com/KThompso/DogHouseApi/blob/master/postman/DogHouseAPI.postman_collection.json?raw=true
 [swagger-ui]: https://doghouse.thompsonbass.io/swagger/index.html
 [swagger-raw]: https://doghouse.thompsonbass.io/swagger/v1/swagger.json

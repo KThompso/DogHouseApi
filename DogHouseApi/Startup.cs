@@ -51,7 +51,8 @@ namespace DogHouseApi
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddScoped<IDogEntityManager, DogEntityManager>();
             services.AddSingleton<IDogMapper, DogMapper>();
-            services.AddDbContext<DogDbContext>(optionsAction => optionsAction.UseInMemoryDatabase("DogDatabase"));
+            services.AddDbContext<DogDbContext>(optionsAction =>
+                optionsAction.UseInMemoryDatabase("DogDatabase"));
 
             services.AddSwaggerGen(c =>
             {
@@ -89,9 +90,13 @@ namespace DogHouseApi
 
             app.UseSwagger(c =>
             {
-                c.PreSerializeFilters.Add((swagger, httpReq) =>
+                c.PreSerializeFilters.Add((swagger, req) =>
                 {
-                    swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+                    swagger.Servers = new List<OpenApiServer> {
+                        new OpenApiServer { Url = $"http{(req.IsHttps ||(req.Host.Value != "localhost" || req.Host.Port != null) ? "s" : "")}://{req.Host.Value}" },
+                        new OpenApiServer { Url = $"https://{req.Host.Value}" },
+                        new OpenApiServer { Url = $"http://{req.Host.Value}" },
+                    };
                 });
             });
 

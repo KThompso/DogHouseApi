@@ -8,7 +8,7 @@ Create a new dog.
 
 **Data constraints**
 
-Either `imageUrl` or `imageData` can be provided bot both.  `imageData` allows you to upload a base64 encoded string representing an image.  `imageUrl` takes a link to an image on the web.
+Either `imageUrl` or `imageData` can be provided bot both.  `imageData` allows you to upload a base64 encoded string representing an image.  `imageUrl` takes a link to an image on the web.  If `imageData` is used, the image will be saved to the Dog House servers and a link to the image will be returned in the `imageUrl` property.
 
 ```json
 {
